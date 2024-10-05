@@ -51,6 +51,22 @@ app.post("/api/posts", async (req, res) => {
     }
 });
 
+// for user to update a post
+app.put("/api/posts/:id", async (req, res) => {
+    // destructure id
+    const { id } = req.params;
+
+    const post = req.body;
+
+    // catch error, if theres any, if not update post
+    try {
+        const updatedPost = await Post.findByIdAndUpdate(id, post, {new:true});
+        res.status(200).json({ success: true, data: updatedPost})
+    } catch(error) {
+        res.status(500).json({ success: false, message: "server error" })
+    }
+})
+
 // for user delete post
 app.delete("/api/posts/:id",  async (req, res) => {
     // destructure id
