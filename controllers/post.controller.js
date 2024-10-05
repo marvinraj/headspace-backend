@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose')
 const Post = require('../models/post.model')
 
 const getPost = async (req, res) => {
@@ -38,6 +39,11 @@ const updatePost = async (req, res) => {
     // destructure id
     const { id } = req.params;
 
+    // check if id is invalid
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ success: false, message: "invalid product id" })
+    }
+
     const post = req.body;
 
     // catch error, if theres any, if not update post
@@ -53,12 +59,17 @@ const deletePost = async (req, res) => {
     // destructure id
     const { id } = req.params;
     
+    // check if id is invalid
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({ success: false, message: "invalid product id" })
+    }
+
     // catch error, if theres any, if not delete post
     try{
         await Post.findByIdAndDelete(id);
         res.status(200).json({ success: true, message: "post deleted" })
     } catch(error) {
-        res.status(404).json({ success: false, message: "post not found" })
+        res.status(500).json({ success: false, message: "server error" })
     }
 }
 
