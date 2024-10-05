@@ -15,6 +15,19 @@ app.get("/", (req, res) => {
     res.send("server is up and running!")
 })
 
+// user views all post
+app.get("/api/posts", async (req, res) => {
+    // catch error, if theres any, if not view all post
+    try {
+        const posts = await Post.find({})
+        res.status(200).json({ success: true, data: posts })
+    } catch(error) {
+        console.log("error in fetching all posts")
+        res.status(500).json({ success: false, message: "server error" });
+    }
+})
+
+// for user create post
 app.post("/api/posts", async (req, res) => {
 
     // user sends this
@@ -38,6 +51,19 @@ app.post("/api/posts", async (req, res) => {
     }
 });
 
+// for user delete post
+app.delete("/api/posts/:id",  async (req, res) => {
+    // destructure id
+    const { id } = req.params;
+    
+    // catch error, if theres any, if not delete post
+    try{
+        await Post.findByIdAndDelete(id);
+        res.status(200).json({ success: true, message: "post deleted" })
+    } catch(error) {
+        res.status(404).json({ success: false, message: "post not found" })
+    }
+})
 
 app.listen(port, () => {
     connectDB();
