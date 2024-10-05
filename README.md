@@ -13,6 +13,8 @@ the purpose of this file to document my work on building my first fullstack weba
     - install nodemon `npm i nodemon -D`
     - create .env and .gitignore files
     - create a simple express server for now
+- created a project and cluster in mongodb
+- connected project to mongodb
 
 
 # might look into this
