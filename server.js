@@ -12,5 +12,5 @@ app.use("/api/posts", postRoutes)
 
 app.listen(PORT, () => {
     connectDB();
-    console.log("server started at http://localhost:" + PORT);
+    console.log("server started at  " + PORT);
 })
